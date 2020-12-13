@@ -29,10 +29,10 @@ module Dri::Exporter::BagIt
           doi = r['metadata']['doi'].first['url']
         end
 
-        bag_info = { org: "Digital Repository of Ireland" }
-        bag_info[:sender_id] = identifier
-        bag_info[:int_desc] = BASE_URL + '/catalog/' + r['pid']
-        bag_info[:ext_id] = doi if doi
+        bag_info = {}
+        bag_info['Internal-Sender-Identifier'] = identifier
+        bag_info['Internal-Sender-Description'] = BASE_URL + '/catalog/' + r['pid']
+        bag_info['External-Identifier'] = doi if doi
 
         filename = identifier ? ::Zaru.sanitize!(identifier) : r['pid']
         base_path = File.join(export_path, filename)

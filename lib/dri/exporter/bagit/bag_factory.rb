@@ -7,6 +7,7 @@ module Dri::Exporter::BagIt
 
     def initialize(base_path:, bag_info: {})
       @bag = ::BagIt::Bag.new base_path
+      bag.write_bag_info({ "Source-Organization" => "Digital Repository of Ireland" })
       bag.write_bag_info(bag_info)
     end
 
