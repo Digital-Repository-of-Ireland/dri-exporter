@@ -24,5 +24,9 @@ module Dri::Exporter::BagIt
     def create_bag
       bag.manifest!
     end
+
+    def empty?
+      bag.empty?
+    end
   end
 end

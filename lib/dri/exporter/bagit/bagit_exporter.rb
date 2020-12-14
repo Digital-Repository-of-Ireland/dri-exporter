@@ -37,6 +37,11 @@ module Dri::Exporter::BagIt
         filename = identifier ? ::Zaru.sanitize!(identifier) : r['pid']
         base_path = File.join(export_path, filename)
         factory = BagFactory.new(base_path: base_path, bag_info: bag_info)
+        if !factory.empty?
+          puts "bag already exists for #{identifier} #{r['pid']}"
+          next
+        end
+
         factory.add_metadata(metadata_download.path)
 
         r['files'].each do |file|
