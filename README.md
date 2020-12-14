@@ -40,7 +40,7 @@ Or give the path to a CSV file containing a list of IDs.
 
 
 ```
-Dri::Exporter.export(csv: 'gd_ids.txt')
+Dri::Exporter.export(csv: 'ids.csv')
 
 ```
 
