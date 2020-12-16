@@ -11,6 +11,7 @@ module Dri::Exporter::BagIt
     BASE_URL = 'https://repository.dri.ie'.freeze
 
     def initialize(export_path:, user_email:, user_token:)
+      raise "No output directory given" unless export_path
       @export_path = export_path
       @user_email = user_email
       @user_token = user_token
@@ -21,7 +22,6 @@ module Dri::Exporter::BagIt
 
       response.each do |r|
         metadata = r['metadata']
-
         metadata_download = ::Down.download(metadata_url(r['pid']))
         identifier = extract_identifier(metadata_download.path) || r['pid']
 
@@ -38,7 +38,7 @@ module Dri::Exporter::BagIt
         base_path = File.join(export_path, filename)
         factory = BagFactory.new(base_path: base_path, bag_info: bag_info)
         if !factory.empty?
-          puts "bag already exists for #{identifier} #{r['pid']}"
+          ::Dri::Exporter.logger.warn "bag already exists for #{identifier} #{r['pid']}"
           next
         end
 

@@ -18,7 +18,7 @@ module Dri::Exporter::BagIt
     def add_data(relative_path, src_path)
       bag.add_file(relative_path, src_path)
     rescue RuntimeError => e
-      puts e.message
+      ::Dri::Exporter.logger.error e.message
     end
 
     def create_bag

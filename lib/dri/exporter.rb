@@ -11,6 +11,14 @@ module Dri
       attr_accessor :api_token, :user_email, :output_directory
       attr_writer :id_header
 
+      attr_writer :logger
+
+      def logger
+        @logger ||= Logger.new($stdout).tap do |log|
+          log.progname = self.name
+        end
+      end
+
       def config
         yield self
       end
@@ -26,11 +34,8 @@ module Dri
           user_token: self.api_token
         )
 
-        if  csv
-          export_csv(csv, exporter)
-        elsif !object_ids.empty?
-          exporter.export(object_ids: object_ids)
-        end
+        export_csv(csv, exporter) if csv
+        exporter.export(object_ids: object_ids) unless object_ids.empty?
       end
 
       def export_csv(csv, exporter)

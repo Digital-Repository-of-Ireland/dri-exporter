@@ -1,5 +1,13 @@
+require 'simplecov'
+SimpleCov.start do
+  add_filter 'spec/'
+  add_filter 'lib/dri/exporter/version.rb'
+end
+
 require "bundler/setup"
 require "dri/exporter"
+
+RSPEC_ROOT = File.dirname __FILE__
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -11,4 +19,8 @@ RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
+end
+
+def fixture_path(fixture)
+   File.join(RSPEC_ROOT, 'fixtures', fixture)
 end
